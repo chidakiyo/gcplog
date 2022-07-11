@@ -1,0 +1,103 @@
+package gcplog
+
+import (
+	"context"
+	"sync"
+)
+
+type logger struct {
+	mu        sync.Mutex
+	text      Writer
+	json      Writer
+	structure func(context.Context, string, interface{})
+}
+
+func (l *logger) outputTxt(ctx context.Context, severity, format string, a ...interface{}) {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	l.text(ctx, severity, format, a...)
+}
+
+func (l *logger) outputJson(ctx context.Context, severity, format string, a ...interface{}) {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	l.json(ctx, severity, format, a...)
+}
+
+func (l *logger) outputStructure(ctx context.Context, severity string, target interface{}) {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	l.structure(ctx, severity, target)
+}
+
+var lg = &logger{
+	text:      outputText,
+	json:      outputJSON,
+	structure: outputStructure,
+}
+
+// text log
+
+func DebugfT(ctx context.Context, format string, a ...interface{}) {
+	lg.outputTxt(ctx, "DEBUG", format, a...)
+}
+
+func InfofT(ctx context.Context, format string, a ...interface{}) {
+	lg.outputTxt(ctx, "INFO", format, a...)
+}
+
+func WarningfT(ctx context.Context, format string, a ...interface{}) {
+	lg.outputTxt(ctx, "WARNING", format, a...)
+}
+
+func ErrorfT(ctx context.Context, format string, a ...interface{}) {
+	lg.outputTxt(ctx, "ERROR", format, a...)
+}
+
+func CriticalfT(ctx context.Context, format string, a ...interface{}) {
+	lg.outputTxt(ctx, "CRITICAL", format, a...)
+}
+
+// json log
+
+func Debugf(ctx context.Context, format string, a ...interface{}) {
+	lg.outputJson(ctx, "DEBUG", format, a...)
+}
+
+func Infof(ctx context.Context, format string, a ...interface{}) {
+	lg.outputJson(ctx, "INFO", format, a...)
+}
+
+func Warningf(ctx context.Context, format string, a ...interface{}) {
+	lg.outputJson(ctx, "WARNING", format, a...)
+}
+
+func Errorf(ctx context.Context, format string, a ...interface{}) {
+	lg.outputJson(ctx, "ERROR", format, a...)
+}
+
+func Criticalf(ctx context.Context, format string, a ...interface{}) {
+	lg.outputJson(ctx, "CRITICAL", format, a...)
+}
+
+// Structured log
+
+func DebugfS(ctx context.Context, a interface{}) {
+	lg.outputStructure(ctx, "DEBUG", a)
+}
+
+func InfofS(ctx context.Context, a interface{}) {
+	lg.outputStructure(ctx, "INFO", a)
+}
+
+func WarningfS(ctx context.Context, a interface{}) {
+	lg.outputStructure(ctx, "WARNING", a)
+}
+
+func ErrorfS(ctx context.Context, a interface{}) {
+	lg.outputStructure(ctx, "ERROR", a)
+}
+
+func CriticalfS(ctx context.Context, a interface{}) {
+	lg.outputStructure(ctx, "CRITICAL", a)
+}
