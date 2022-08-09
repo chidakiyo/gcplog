@@ -71,28 +71,28 @@ var Structure = structure{}
 // text log
 
 func (text) Debugf(ctx context.Context, format string, a ...interface{}) {
-	if logLevel >= DEBUG {
+	if logLevel > DEBUG {
 		return
 	}
 	lg.outputTxt(ctx, "DEBUG", format, a...)
 }
 
 func (text) Infof(ctx context.Context, format string, a ...interface{}) {
-	if logLevel >= INFO {
+	if logLevel > INFO {
 		return
 	}
 	lg.outputTxt(ctx, "INFO", format, a...)
 }
 
 func (text) Warningf(ctx context.Context, format string, a ...interface{}) {
-	if logLevel >= WARNING {
+	if logLevel > WARNING {
 		return
 	}
 	lg.outputTxt(ctx, "WARNING", format, a...)
 }
 
 func (text) Errorf(ctx context.Context, format string, a ...interface{}) {
-	if logLevel >= ERROR {
+	if logLevel > ERROR {
 		return
 	}
 	lg.outputTxt(ctx, "ERROR", format, a...)
@@ -105,35 +105,35 @@ func (text) Criticalf(ctx context.Context, format string, a ...interface{}) {
 // json log
 
 func Debugf(ctx context.Context, format string, a ...interface{}) {
-	if logLevel >= DEBUG {
+	if logLevel > DEBUG {
 		return
 	}
 	lg.outputJson(ctx, "DEBUG", format, a...)
 }
 
 func Infof(ctx context.Context, format string, a ...interface{}) {
-	if logLevel >= INFO {
+	if logLevel > INFO {
 		return
 	}
 	lg.outputJson(ctx, "INFO", format, a...)
 }
 
 func Warningf(ctx context.Context, format string, a ...interface{}) {
-	if logLevel >= DEBUG {
+	if logLevel > DEBUG {
 		return
 	}
 	lg.outputJson(ctx, "WARNING", format, a...)
 }
 
 func Errorf(ctx context.Context, format string, a ...interface{}) {
-	if logLevel >= ERROR {
+	if logLevel > ERROR {
 		return
 	}
 	lg.outputJson(ctx, "ERROR", format, a...)
 }
 
 func Criticalf(ctx context.Context, format string, a ...interface{}) {
-	if logLevel >= CRITICAL {
+	if logLevel > CRITICAL {
 		return
 	}
 	lg.outputJson(ctx, "CRITICAL", format, a...)
@@ -142,35 +142,35 @@ func Criticalf(ctx context.Context, format string, a ...interface{}) {
 // Structured log
 
 func (structure) Debugf(ctx context.Context, a interface{}) {
-	if logLevel >= DEBUG {
+	if logLevel > DEBUG {
 		return
 	}
 	lg.outputStructure(ctx, "DEBUG", a)
 }
 
 func (structure) Infof(ctx context.Context, a interface{}) {
-	if logLevel >= INFO {
+	if logLevel > INFO {
 		return
 	}
 	lg.outputStructure(ctx, "INFO", a)
 }
 
 func (structure) Warningf(ctx context.Context, a interface{}) {
-	if logLevel >= WARNING {
+	if logLevel > WARNING {
 		return
 	}
 	lg.outputStructure(ctx, "WARNING", a)
 }
 
 func (structure) Errorf(ctx context.Context, a interface{}) {
-	if logLevel >= ERROR {
+	if logLevel > ERROR {
 		return
 	}
 	lg.outputStructure(ctx, "ERROR", a)
 }
 
 func (structure) Criticalf(ctx context.Context, a interface{}) {
-	if logLevel >= CRITICAL {
+	if logLevel > CRITICAL {
 		return
 	}
 	lg.outputStructure(ctx, "CRITICAL", a)
